@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>IndexMaster - Index Number Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">IM</div>
+
+            <div>
+                <h1>IndexMaster</h1>
+                <p>Index Number Calculator</p>
+            </div>
+        </div>
+
+        <button id="themeBtn" class="icon-btn" title="Toggle dark mode">
+            🌙
+        </button>
+    </header>
+
+
+    <main class="container">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div>
+                <span class="badge">STUDENT TOOL</span>
+
+                <h2>
+                    Calculate Index Numbers
+                    <span>easily.</span>
+                </h2>
+
+                <p>
+                    Enter your prices and quantities and let IndexMaster
+                    calculate the major price index numbers automatically.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+                    <h3>📋 Enter Your Data</h3>
+                    <p>Add the number of articles you need.</p>
+                </div>
+
+                <div class="controls">
+
+                    <label for="articleCount">
+                        Articles
+                    </label>
+
+                    <input
+                        type="number"
+                        id="articleCount"
+                        value="4"
+                        min="1"
+                        max="50"
+                    >
+
+                    <button id="generateBtn" class="primary">
+                        Generate
+                    </button>
+
+                    <button id="exampleBtn" class="secondary">
+                        Example
+                    </button>
+
+                    <button id="resetBtn" class="danger">
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="inputTable">
+
+                    <thead>
+                        <tr>
+                            <th>Article</th>
+                            <th>P₀</th>
+                            <th>P₁</th>
+                            <th>Q₀</th>
+                            <th>Q₁</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="inputBody"></tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="table-actions">
+
+                <button id="addBtn" class="add-btn">
+                    + Add Article
+                </button>
+
+                <button id="calculateBtn" class="calculate-btn">
+                    🧮 Calculate
+                </button>
+
+            </div>
+
+
+            <p id="errorMessage" class="error"></p>
+
+        </section>
+
+
+        <!-- RESULTS -->
+
+        <section id="resultsSection" class="hidden">
+
+            <div class="section-title">
+
+                <div>
+                    <span class="badge">RESULTS</span>
+                    <h2>Your Index Numbers</h2>
+                </div>
+
+                <button id="copyBtn" class="secondary">
+                    📋 Copy Results
+                </button>
+
+            </div>
+
+
+            <div class="results-grid">
+
+                <div class="result-card">
+                    <span>Laspeyres</span>
+                    <strong id="laspeyres">—</strong>
+                    <small>Price Index</small>
+                </div>
+
+                <div class="result-card">
+                    <span>Paasche</span>
+                    <strong id="paasche">—</strong>
+                    <small>Price Index</small>
+                </div>
+
+                <div class="result-card highlight">
+                    <span>Fisher</span>
+                    <strong id="fisher">—</strong>
+                    <small>Ideal Price Index</small>
+                </div>
+
+                <div class="result-card">
+                    <span>Marshall–Edgeworth</span>
+                    <strong id="marshall">—</strong>
+                    <small>Price Index</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CALCULATION TABLE -->
+
+        <section id="calculationSection" class="card hidden">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="badge">WORKING</span>
+                    <h2>Calculation Table</h2>
+                    <p>Intermediate values used in the formulas.</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Article</th>
+                            <th>P₀Q₀</th>
+                            <th>P₁Q₀</th>
+                            <th>P₀Q₁</th>
+                            <th>P₁Q₁</th>
+                            <th>P₁(Q₀+Q₁)</th>
+                            <th>P₀(Q₀+Q₁)</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="calculationBody"></tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th>TOTAL</th>
+                            <th id="totalP0Q0">0</th>
+                            <th id="totalP1Q0">0</th>
+                            <th id="totalP0Q1">0</th>
+                            <th id="totalP1Q1">0</th>
+                            <th id="totalP1Both">0</th>
+                            <th id="totalP0Both">0</th>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- FORMULAS -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="badge">REFERENCE</span>
+                    <h2>Formulas</h2>
+                    <p>Quick reference for each index number.</p>
+                </div>
+
+            </div>
+
+
+            <div class="formula-grid">
+
+                <div class="formula-card">
+
+                    <h3>Laspeyres</h3>
+
+                    <div class="formula">
+                        P<sub>L</sub> =
+                        (ΣP₁Q₀ / ΣP₀Q₀) × 100
+                    </div>
+
+                    <p>
+                        Uses base-year quantities as weights.
+                    </p>
+
+                </div>
+
+
+                <div class="formula-card">
+
+                    <h3>Paasche</h3>
+
+                    <div class="formula">
+                        P<sub>P</sub> =
+                        (ΣP₁Q₁ / ΣP₀Q₁) × 100
+                    </div>
+
+                    <p>
+                        Uses current-year quantities as weights.
+                    </p>
+
+                </div>
+
+
+                <div class="formula-card">
+
+                    <h3>Fisher</h3>
+
+                    <div class="formula">
+                        P<sub>F</sub> =
+                        (P<sub>L</sub> × P<sub>P</sub>)<sup>1/2</sup>
+                    </div>
+
+                    <p>
+                        Geometric mean of Laspeyres and Paasche.
+                    </p>
+
+                </div>
+
+
+                <div class="formula-card">
+
+                    <h3>Marshall–Edgeworth</h3>
+
+                    <div class="formula">
+                        P<sub>ME</sub> =
+                        [ΣP₁(Q₀+Q₁) /
+                        ΣP₀(Q₀+Q₁)] × 100
+                    </div>
+
+                    <p>
+                        Uses the quantities from both years.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STEPS -->
+
+        <section id="stepsSection" class="card hidden">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="badge">LEARN</span>
+                    <h2>Step-by-Step Solution</h2>
+                    <p>See exactly how the answer was calculated.</p>
+                </div>
+
+            </div>
+
+            <div id="steps" class="steps"></div>
+
+        </section>
+
+
+        <footer>
+
+            <p>
+                IndexMaster • Made for students 📚
+            </p>
+
+            <p>
+                All calculations happen in your browser.
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
